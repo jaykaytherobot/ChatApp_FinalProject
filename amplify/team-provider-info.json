@@ -1,0 +1,20 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-amplify21fcf9b28d404-staging-95235-authRole",
+      "UnauthRoleArn": "arn:aws:iam::767987881987:role/amplify-amplify21fcf9b28d404-staging-95235-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::767987881987:role/amplify-amplify21fcf9b28d404-staging-95235-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-amplify21fcf9b28d404-staging-95235-deployment",
+      "UnauthRoleName": "amplify-amplify21fcf9b28d404-staging-95235-unauthRole",
+      "StackName": "amplify-amplify21fcf9b28d404-staging-95235",
+      "StackId": "arn:aws:cloudformation:us-east-2:767987881987:stack/amplify-amplify21fcf9b28d404-staging-95235/f9be4a70-210a-11ec-b270-0a4ff8994d64",
+      "AmplifyAppId": "d3lg91ep4rh0jo"
+    },
+    "categories": {
+      "auth": {
+        "nordversechatapp": {}
+      }
+    }
+  }
+}
