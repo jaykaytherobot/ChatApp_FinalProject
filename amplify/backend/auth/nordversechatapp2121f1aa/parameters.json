@@ -1,8 +1,8 @@
 {
-    "identityPoolName": "testAuthIdentityPool",
+    "identityPoolName": "nordversechatapp2121f1aa_identitypool_2121f1aa",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "nordve29f3933d",
-    "userPoolName": "nordversechatapp",
+    "resourceNameTruncated": "nordve2121f1aa",
+    "userPoolName": "nordversechatapp2121f1aa_userpool_2121f1aa",
     "autoVerifiedAttributes": [
         "email"
     ],
@@ -12,28 +12,27 @@
     ],
     "smsAuthenticationMessage": "Your authentication code is {####}",
     "smsVerificationMessage": "Your verification code is {####}",
-    "emailVerificationSubject": "Forgot password code: {####}",
-    "emailVerificationMessage": "Forgot password code: {####}",
+    "emailVerificationSubject": "Your verification code",
+    "emailVerificationMessage": "Your verification code is {####}",
     "defaultPasswordPolicy": false,
     "passwordPolicyMinLength": 8,
-    "passwordPolicyCharacters": [
-        "Requires Lowercase",
-        "Requires Numbers",
-        "Requires Uppercase"
-    ],
+    "passwordPolicyCharacters": [],
     "requiredAttributes": [
-        "preferred_username",
         "email"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
     "userpoolClientRefreshTokenValidity": 30,
-    "userpoolClientWriteAttributes": [],
-    "userpoolClientReadAttributes": [],
-    "userpoolClientLambdaRole": "nordve29f3933d_userpoolclient_lambda_role",
+    "userpoolClientWriteAttributes": [
+        "email"
+    ],
+    "userpoolClientReadAttributes": [
+        "email"
+    ],
+    "userpoolClientLambdaRole": "nordve2121f1aa_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "29f3933d",
-    "resourceName": "nordversechatapp",
+    "sharedId": "2121f1aa",
+    "resourceName": "nordversechatapp2121f1aa",
     "authSelections": "identityPoolAndUserPool",
     "authRoleArn": {
         "Fn::GetAtt": [
@@ -47,13 +46,9 @@
             "Arn"
         ]
     },
-    "serviceName": "Cognito",
-    "useDefault": "manual",
-    "userPoolGroups": false,
+    "useDefault": "default",
     "userPoolGroupList": [],
-    "adminQueries": false,
-    "thirdPartyAuth": false,
-    "authProviders": [],
+    "serviceName": "Cognito",
     "usernameCaseSensitive": false,
     "dependsOn": []
 }
