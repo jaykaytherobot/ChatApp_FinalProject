@@ -1,14 +1,22 @@
-type Chat @model {
+type Message 
+@model 
+@auth(rules: [
+  { allow: owner }, #specifies owner 
+  { allow: owner, ownerField: "receiver", operations: [read] }, # allows the receiver to read messages 
+  { allow: groups, groups: ["Personell"], operations: [read, update] }, # allows all Personell to read all messages
+])
+@key(name: "messagesByOwner", fields: ["owner"], queryField: "messagesByOwner")
+@key(name: "messagesByStatus", fields: ["status"], queryField: "messagesByStatus")
+@key(name: "messagesByReceiver", fields: ["receiver"], queryField: "messagesByReceiver")
+{
   id: ID!
-  messages: [Message] @connection(keyName: "byChat", fields: ["id"])
+  status: Status!
+  content: String!
+  owner: String!
+  receiver: String # the receiver is optional
 }
 
-
-type Message @model 
-  @auth(rules: [{ allow: owner }])
-  @key(name: "byChat", fields: ["chatID", "content"]) {
-  id: ID!
-  chatID: ID!
-  chat: Chat @connection(fields: ["chatID"])
-  content: String!
+enum Status {
+  PENDING
+  READ
 }
