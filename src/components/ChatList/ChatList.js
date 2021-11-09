@@ -1,8 +1,23 @@
-function ChatList() {
+import { API } from "aws-amplify";
+import { useEffect, useState } from "react";
+import { messagesByReceiver } from "../../graphql/queries";
+
+function ChatList({ setRecipient }) {
+  const [chats, setChats] = useState([]);
+
+  useEffect(() => {
+    setChats(['johannes'])
+  }, []);
+
   return (
-    <>
-      Admin chat list
-    </>
+    <ul>
+      {chats.map((chat, i) => 
+        <li key={i}
+            onClick={() => { 
+              console.log('change recipient')
+              setRecipient(chat) }}
+        >{chat}</li>)}
+    </ul>
   )
 }
 

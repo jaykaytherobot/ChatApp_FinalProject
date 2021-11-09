@@ -2,7 +2,6 @@ import './ChatHistory.css';
 import React from 'react';
 
 function ChatHistory({ username, messages }) {
-  console.log('Rendering chat history again')
   if (!messages) messages = [];
 
   return (
