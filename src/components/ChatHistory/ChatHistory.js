@@ -1,16 +1,17 @@
 import './ChatHistory.css';
 import React from 'react';
 
-function ChatHistory({ username, messages }) {
+function ChatHistory({ user, messages }) {
   if (!messages) messages = [];
 
+  console.log(user);
   return (
     <div className='ChatHistory'>
       {
         messages.map(m => (
-          <div key={m.id}>
-            {(username === m.owner && <p>me</p>) || <p>{m.owner}</p>}
-            <p>{m.content}</p>
+          <div className={user === m.owner ? 'Message Mine' : 'Message'}key={m.id}>
+            <p className='SenderText'>{user === m.owner ? 'me' : m.owner}</p>
+            <p className='Content'>{m.content}</p>
           </div>
         ))
       }

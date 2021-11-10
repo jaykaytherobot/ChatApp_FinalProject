@@ -4,4 +4,30 @@
   flex-grow: 1;
   font-size: 16px;
   box-sizing: border-box;
+  padding: 50px;
+}
+
+.Message {
+  background-color: #EBEBEB;
+  border-radius: 10px;
+  max-width: 60%;
+  min-width: 20%;
+  margin: 10px;
+  text-align: left;
+  width: fit-content;
+  padding: 5px 20px;
+}
+
+.Mine {
+  background-color: #7ED1E4;
+  align-self: flex-end;
+}
+
+.SenderText {
+  font-size: 0.8em;
+  margin: 0;
+}
+
+.Content {
+  margin: 5px 0;
 }
