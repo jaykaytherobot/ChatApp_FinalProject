@@ -1,19 +1,20 @@
 type Message 
 @model 
 @auth(rules: [
-  { allow: owner }, #specifies owner 
-  { allow: owner, ownerField: "receiver", operations: [read] }, # allows the receiver to read messages 
+  { allow: owner, ownerField: "owner" }, #specifies owner 
+  { allow: owner, ownerField: "client", operations: [read]}
   { allow: groups, groups: ["Personell"], operations: [read, update] }, # allows all Personell to read all messages
 ])
 @key(name: "messagesByOwner", fields: ["owner"], queryField: "messagesByOwner")
+@key(name: "messagesByClient", fields: ["client", "createdAt"], queryField: "messagesByClient")
 @key(name: "messagesByStatus", fields: ["status"], queryField: "messagesByStatus")
-@key(name: "messagesByReceiver", fields: ["receiver"], queryField: "messagesByReceiver")
 {
   id: ID!
   status: Status!
   content: String!
   owner: String!
-  receiver: String # the receiver is optional
+  client: String!
+  createdAt: String!
 }
 
 enum Status {

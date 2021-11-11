@@ -8,7 +8,7 @@ export const getMessage = /* GraphQL */ `
       status
       content
       owner
-      receiver
+      client
       createdAt
       updatedAt
     }
@@ -26,7 +26,7 @@ export const listMessages = /* GraphQL */ `
         status
         content
         owner
-        receiver
+        client
         createdAt
         updatedAt
       }
@@ -54,7 +54,37 @@ export const messagesByOwner = /* GraphQL */ `
         status
         content
         owner
-        receiver
+        client
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const messagesByClient = /* GraphQL */ `
+  query MessagesByClient(
+    $client: String
+    $createdAt: ModelStringKeyConditionInput
+    $sortDirection: ModelSortDirection
+    $filter: ModelMessageFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    messagesByClient(
+      client: $client
+      createdAt: $createdAt
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        status
+        content
+        owner
+        client
         createdAt
         updatedAt
       }
@@ -82,35 +112,7 @@ export const messagesByStatus = /* GraphQL */ `
         status
         content
         owner
-        receiver
-        createdAt
-        updatedAt
-      }
-      nextToken
-    }
-  }
-`;
-export const messagesByReceiver = /* GraphQL */ `
-  query MessagesByReceiver(
-    $receiver: String
-    $sortDirection: ModelSortDirection
-    $filter: ModelMessageFilterInput
-    $limit: Int
-    $nextToken: String
-  ) {
-    messagesByReceiver(
-      receiver: $receiver
-      sortDirection: $sortDirection
-      filter: $filter
-      limit: $limit
-      nextToken: $nextToken
-    ) {
-      items {
-        id
-        status
-        content
-        owner
-        receiver
+        client
         createdAt
         updatedAt
       }

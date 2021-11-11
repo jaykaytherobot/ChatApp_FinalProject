@@ -7,7 +7,21 @@ import './PersonellArea.css';
 import { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
 import { onCreateMessage } from '../../graphql/subscriptions';
-import { messagesByOwner, messagesByReceiver } from '../../graphql/queries';
+import { messagesByClient } from '../../graphql/queries';
+
+const onCreateMessageClient = `
+subscription OnCreateMessage($client: String) {
+  onCreateMessage(client: $client) {
+    id
+    status
+    content
+    owner
+    client
+    createdAt
+    updatedAt
+  }
+}
+`;
 
 // user : User obj frá aws
 // isPersonell: truthy value hvort user sé personell eða ekki
@@ -24,30 +38,29 @@ function PersonellArea({ user }) {
     // Fetches the chat history of two user
     // TODO make it fetch chat history of two users
     const fetchChat = async () => {
-      const messagesFromClientData = await API.graphql({
-        query: messagesByOwner,
-        variables: { owner: recipient },
+      const messagesByClientData = await API.graphql({
+        query: messagesByClient,
+        variables: { client: recipient },
       });
 
-      const messagesToClientData = await API.graphql({
-        query: messagesByReceiver, 
-        variables: { receiver: recipient }
-      });
+      // const messagesToClientData = await API.graphql({
+      //   query: messagesByReceiver, 
+      //   variables: { receiver: recipient }
+      // });
       
-      const messagesFromClient = messagesFromClientData?.data?.messagesByOwner?.items || [];
-      const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
+      const _messagesByClient = messagesByClientData?.data?.messagesByClient?.items || [];
+      // const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
 
       console.log('setting messages')
-      setMessages([...messagesFromClient, ...messagesToClient]);
+      setMessages([..._messagesByClient]);
     }
 
     fetchChat(user.username);
 
     const subscription = API.graphql({
-      query: onCreateMessage, 
+      query: onCreateMessageClient, 
       variables: {
-        owner: recipient, 
-        receiver: 'Personell',
+        client: recipient,
       }
     }).subscribe({
       next: (data) => {
@@ -71,7 +84,7 @@ function PersonellArea({ user }) {
         messages = { messages }/> 
       <MessageInput 
         username={ user?.username }
-        receiver = { recipient }
+        client={ recipient }
         setMessages = { setMessages }/>
     </div>
     </>

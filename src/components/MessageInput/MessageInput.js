@@ -2,10 +2,11 @@ import './MessageInput.css';
 import Button from '..//Button/Button';
 import { API } from 'aws-amplify';
 import { createMessage, deleteMessage } from '../../graphql/mutations';
-import { messagesByOwner } from '../../graphql/queries';
+// import { messagesByClient } from '../../graphql/queries';
 import { useState } from 'react';
+import { messagesByClient } from '../../graphql/queries';
 
-function MessageInput({ username, receiver, setMessages }) {
+function MessageInput({ username, client }) {
   const [content, setContent] = useState('');
 
   async function sendMessage() {
@@ -16,24 +17,22 @@ function MessageInput({ username, receiver, setMessages }) {
       variables: { 
         input: {
           owner: username, 
-          receiver: receiver, 
+          client: client, 
           content,
           status: 'PENDING',
         } }
     });
-    console.log(result);
-    setMessages(messages => [...messages, result.data.createMessage]);
   }
 
   async function deleteAllMessages(evt) {
     evt.preventDefault();
     let myMessagesData = await API.graphql({
-      query: messagesByOwner,
+      query: messagesByClient,
       variables: {
-        owner: username,
+        client,
       }
     });
-    let myMessages = myMessagesData?.data?.messagesByOwner?.items;
+    let myMessages = myMessagesData?.data?.messagesByClient?.items;
     if (!myMessages) return;
     for (let message of myMessages) {
       let id = message.id;

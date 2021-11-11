@@ -1,18 +1,18 @@
 import { API } from "aws-amplify";
 import { useEffect, useState } from "react";
-import { messagesByOwner, messagesByReceiver } from "../../graphql/queries";
+import { messagesByClient } from "../../graphql/queries";
 import './ClientArea.css';
 import ChatHistory from "../ChatHistory/ChatHistory";
 import MessageInput from "../MessageInput/MessageInput";
 
-const onCreateMessageRecipient = `
-subscription OnCreateMessage($receiver: String) {
-  onCreateMessage(receiver: $receiver) {
+const onCreateMessageClient = `
+subscription OnCreateMessage($client: String) {
+  onCreateMessage(client: $client) {
     id
     status
     content
     owner
-    receiver
+    client
     createdAt
     updatedAt
   }
@@ -26,27 +26,31 @@ function ClientArea({ user }) {
     if (!user || !user.username) return;
     
     const fetchChat = async (username) => {
-      const messagesFromClientData = await API.graphql({
-        query: messagesByOwner,
-        variables: { owner: username }
+      const messagesByClientData = await API.graphql({
+        query: messagesByClient, 
+        variables: { client: username, sortDirection: 'ASC' }
       });
-      const messagesToClientData = await API.graphql({
-        query: messagesByReceiver, 
-        variables: { receiver: username }
-      });
+      // const messagesFromClientData = await API.graphql({
+      //   query: messagesByOwner,
+      //   variables: { owner: username }
+      // });
+      // const messagesToClientData = await API.graphql({
+      //   query: messagesByReceiver, 
+      //   variables: { receiver: username }
+      // });
 
-      const messagesFromClient = messagesFromClientData?.data?.messagesByOwner?.items || [];
-      const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
+      const _messagesByClient = messagesByClientData?.data?.messagesByClient?.items || [];
+      // const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
 
-      setMessages([...messagesFromClient, ...messagesToClient])
+      setMessages([..._messagesByClient]);
     }
 
     fetchChat(user.username);
 
     const subscription = API.graphql({
-      query: onCreateMessageRecipient, 
+      query: onCreateMessageClient, 
       variables: {
-        receiver: user.username,
+        client: user.username,
       }
     }).subscribe({
       next: (data) => {
@@ -68,8 +72,8 @@ function ClientArea({ user }) {
         user = {user?.username }
         messages = { messages } />
       <MessageInput 
-        username = { user?.username } 
-        receiver = 'Personell' 
+        username = {user?.username }
+        client = { user?.username } 
         setMessages = { setMessages } />
     </div>
   );

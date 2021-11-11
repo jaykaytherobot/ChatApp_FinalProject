@@ -12,6 +12,7 @@ function ChatHistory({ user, messages }) {
           <div className={user === m.owner ? 'Message Mine' : 'Message'}key={m.id}>
             <p className='SenderText'>{user === m.owner ? 'me' : m.owner}</p>
             <p className='Content'>{m.content}</p>
+            <p className='TimeStamp'>{m.createdAt || ''}</p>
           </div>
         ))
       }

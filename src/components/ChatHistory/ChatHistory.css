@@ -31,3 +31,8 @@
 .Content {
   margin: 5px 0;
 }
+
+.TimeStamp {
+  margin: 0;
+  float: right;
+}

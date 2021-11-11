@@ -11,7 +11,7 @@ export const createMessage = /* GraphQL */ `
       status
       content
       owner
-      receiver
+      client
       createdAt
       updatedAt
     }
@@ -27,7 +27,7 @@ export const updateMessage = /* GraphQL */ `
       status
       content
       owner
-      receiver
+      client
       createdAt
       updatedAt
     }
@@ -43,7 +43,7 @@ export const deleteMessage = /* GraphQL */ `
       status
       content
       owner
-      receiver
+      client
       createdAt
       updatedAt
     }
