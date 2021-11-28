@@ -2,9 +2,8 @@ import './MessageInput.css';
 import Button from '..//Button/Button';
 import { API } from 'aws-amplify';
 import { createMessage, deleteMessage } from '../../graphql/mutations';
-// import { messagesByClient } from '../../graphql/queries';
 import { useState } from 'react';
-import { messagesByClient } from '../../graphql/queries';
+import { messagesByOwner } from '../../graphql/queries';
 
 function MessageInput({ username, client }) {
   const [content, setContent] = useState('');
@@ -27,12 +26,13 @@ function MessageInput({ username, client }) {
   async function deleteAllMessages(evt) {
     evt.preventDefault();
     let myMessagesData = await API.graphql({
-      query: messagesByClient,
+      query: messagesByOwner,
       variables: {
-        client,
+        owner: username,
       }
     });
-    let myMessages = myMessagesData?.data?.messagesByClient?.items;
+    console.log(myMessagesData);
+    let myMessages = myMessagesData?.data?.messagesByOwner?.items;
     if (!myMessages) return;
     for (let message of myMessages) {
       let id = message.id;
