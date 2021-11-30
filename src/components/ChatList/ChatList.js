@@ -1,16 +1,18 @@
 import { useEffect, useState } from "react";
-
-function ChatList({ setRecipient }) {
+import './ChatList.css';
+function ChatList({ recipient, setRecipient }) {
+  console.log(recipient)
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    setChats(['jóhannes', 'gunnar'])
+    setChats(['jóhannes', 'gunnar', 'placeholder1', 'placeholder2'])
   }, []);
 
   return (
-    <ul>
+    <ul className='ChatList'>
       {chats.map((chat, i) => 
         <li key={i}
+            className={recipient===chat ? 'ChatListItem ChatListItem__selected' : 'ChatListItem'}
             onClick={() => { 
               console.log(`change recipient to ${chat}`)
               setRecipient(chat) }}

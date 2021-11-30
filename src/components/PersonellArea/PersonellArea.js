@@ -24,7 +24,6 @@ subscription OnCreateMessage($client: String) {
 `;
 
 // user : User obj frá aws
-// isPersonell: truthy value hvort user sé personell eða ekki
 // recipient: String - nafn þess sem að user er að tala við
 function PersonellArea({ user }) {
   
@@ -77,7 +76,7 @@ function PersonellArea({ user }) {
 
   return (
     <>
-    <ChatList setRecipient={setRecipient}/>
+    <ChatList recipient={ recipient } setRecipient={ setRecipient }/>
     <div className='PersonellArea'>
       <ChatHistory 
         user = { user?.username }

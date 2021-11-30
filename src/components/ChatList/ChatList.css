@@ -1,0 +1,54 @@
+.ChatList {
+  padding: 0 1em;
+  position: relative;
+}
+
+.ChatList::before {
+  content: '';
+  width: 75%;
+  top: 0;
+  left: 12.5%;
+  border-top: black solid 1px;
+  position: absolute;
+
+}
+
+.ChatListItem {
+  list-style: none;
+  padding: 5px;
+  text-align: left;
+  border-radius: 5px;
+  position: relative;
+}
+
+.ChatListItem::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 12.5%;
+  width: 75%;
+  border-bottom: black solid 1px;
+}
+
+@keyframes animate_width {
+  from { width: 25%; background-color: white;}
+  to { width: 100%; background-color: #7ED1E4;}
+}
+
+.ChatListItem:hover::before,
+.ChatListItem:active:before {
+  background-color: #7ED1E4;
+  border-radius: 5px;
+  content: '';
+  top: 0;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -1;
+  animation: animate_width 0.25s linear;
+}
+
+.ChatListItem__selected {
+  background-color: #7ED1E455;
+}
