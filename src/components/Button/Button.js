@@ -1,7 +1,11 @@
-function Button({ text, onClick }) {
+import './Button.css';
+
+function Button({ text, _className, onClick }) {
   return (
-    <button onClick={onClick}>
-      {text}
+    <button
+      className={_className || ''} 
+      onClick={onClick}>
+      { _className ? '' : text }
     </button>
   );
 }

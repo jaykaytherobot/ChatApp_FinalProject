@@ -21,6 +21,9 @@ function MessageInput({ username, client }) {
           status: 'PENDING',
         } }
     });
+    
+    setContent('');
+    document.getElementById('messageContainer').value = '';
   }
 
   async function deleteAllMessages(evt) {
@@ -46,15 +49,22 @@ function MessageInput({ username, client }) {
 
   return (
     <div className='MessageInput'>
-      <input className='input' 
-        onChange={e => setContent(e.target.value)}
-        />
+      <form className='formInput' 
+            onSubmit={e => { e.preventDefault(); sendMessage() }}
+            autocomplete="off">
+        <input className='input' id='messageContainer' 
+          onChange={e => setContent(e.target.value)}
+          />
+        <input type='submit' hidden/>
+      </form>
       <Button 
         text='Send'
+        _className='SendArrow'
         onClick={sendMessage}
       />
       <Button 
         text='delete my messages' 
+        _className={false}
         onClick={deleteAllMessages} />
 
     </div>
