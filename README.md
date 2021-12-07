@@ -1,70 +1,21 @@
-# Getting Started with Create React App
+# Chat application with React and Amplify
+_Final project for Bachelor of Science from University of Iceland by Jóhannes Kári Sólmundarson_
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Purpose
+The projects purpose is to create a chat application where clients can send messages to an organization (like a health clinic) and receive messages. The messages the clients can receive can in principle be from any actor i.e. personell from the organization, a pre-determined stream of messages, or a chat bot. The project provides the functionality to receive messages from personell but built with ease of extending it for other sources of messages in mind. 
 
-## Available Scripts
+## Technical stack
+The project uses React to build the user interface and Amplify for a quick backend functionality. React was chosen because it would be relatively easy to transform the front end into React native and creating the possibility to extend the website to an app.
 
-In the project directory, you can run:
+### Authentication
+I used UserPools to manage the authentication of users. There are two types of users, personell who are part of the _Personell_ user group and users who are not part of any user group, and can be thought of as _Clients_ who initiate contact with the system. 
 
-### `npm start`
+### API and schema
+I used the GraphQL Transform library to create an AWS backend. The Transform library provides directives, the most important one being the @model, that convert the data model into AWS CloudFormation templates that implement it. The schema is [here](./amplify/backend/api/nordversechatapp/schema.graphql). There you can see that the user group _Personell_ has read privileges on all __Messages__ whereas _Clients_ have read privileges on all __Messages__ they have sent and have been sent to them, via the @auth rules.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## How it works
+The React front end is responsible for taking the user input and performing the relevant API calls. There are two components that is worth highlighting here. 
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+First is the [MessageInput](./src/components/MessageInput/MessageInput.js) component. This is a relatively simple html form element that, on submit, sends the Message written to the input and sends it via createMessage mutation to the API. 
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The second are the [ClientArea](./src/components/ClientArea/ClientArea.js) and the [PersonellArea](./src/components/PersonellArea/PersonellArea.js). _(They are almost the same component, with the only distinction being that there is the added functionality in PersonellArea to switch between chats they are viewing, and future possibly added functionality.)_  They first fetch all the messages sent to and from the _Client_ and then they subscribe to all messages sent to and from the _Client_. The __Messages__ are stored in the components state in a list, and are displayed in the [ChatHistory](./src/components/ChatHistory/ChatHistory.js). When a new __Message__ is received at the server, the subscription gets notified and receives that __Message__, which is then appended to the list. 
