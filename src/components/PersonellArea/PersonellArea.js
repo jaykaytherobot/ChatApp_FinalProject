@@ -1,14 +1,14 @@
-// import './ChatArea.css';
+import { messagesByClient } from '../../graphql/queries';
 import MessageInput from "../MessageInput/MessageInput";
 import ChatHistory from "../ChatHistory/ChatHistory";
+
 import ChatList from "../ChatList/ChatList";
-import './PersonellArea.css';
 
 import { useEffect, useState } from 'react';
 import { API } from 'aws-amplify';
-import { onCreateMessage } from '../../graphql/subscriptions';
-import { messagesByClient } from '../../graphql/queries';
+import './PersonellArea.css';
 
+// Custom graphql subscription query to subscribe on createMessages with specific client.
 const onCreateMessageClient = `
 subscription OnCreateMessage($client: String) {
   onCreateMessage(client: $client) {
@@ -23,39 +23,32 @@ subscription OnCreateMessage($client: String) {
 }
 `;
 
-// user : User obj frá aws
-// recipient: String - nafn þess sem að user er að tala við
 function PersonellArea({ user }) {
   
   const [messages, setMessages] = useState([]);
-  const [recipient, setRecipient] = useState('jóhannes');
+  const [recipient, setRecipient] = useState('jóhannes'); // <- HARD CODED INITIAL VALUE!!!
 
   useEffect(() => {
     // only load chats if both the recipient and the user are defined
     if (!user || !user?.username || !recipient) return;
 
-    // Fetches the chat history of two user
-    // TODO make it fetch chat history of two users
+    // Fetches the chat history where Client is the defined recipient
     const fetchChat = async () => {
+
       const messagesByClientData = await API.graphql({
         query: messagesByClient,
         variables: { client: recipient },
       });
-
-      // const messagesToClientData = await API.graphql({
-      //   query: messagesByReceiver, 
-      //   variables: { receiver: recipient }
-      // });
       
       const _messagesByClient = messagesByClientData?.data?.messagesByClient?.items || [];
-      // const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
 
-      console.log('setting messages')
       setMessages([..._messagesByClient]);
+
     }
 
     fetchChat(user.username);
 
+    // Subscription on new messages where Client is the defined recipient
     const subscription = API.graphql({
       query: onCreateMessageClient, 
       variables: {

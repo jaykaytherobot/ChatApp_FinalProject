@@ -1,10 +1,11 @@
-import { API } from "aws-amplify";
-import { useEffect, useState } from "react";
 import { messagesByClient } from "../../graphql/queries";
-import './ClientArea.css';
-import ChatHistory from "../ChatHistory/ChatHistory";
 import MessageInput from "../MessageInput/MessageInput";
+import ChatHistory from "../ChatHistory/ChatHistory";
+import { useEffect, useState } from "react";
+import { API } from "aws-amplify";
+import './ClientArea.css';
 
+// Custom graphql subscription query to subscribe on createMessages with specific client.
 const onCreateMessageClient = `
 subscription OnCreateMessage($client: String) {
   onCreateMessage(client: $client) {
@@ -20,33 +21,28 @@ subscription OnCreateMessage($client: String) {
 `;
 
 function ClientArea({ user }) {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([]); // list of messages
 
   useEffect(() => {
+    // There has to be a logged in user for us to fetch them messages
     if (!user || !user.username) return;
     
     const fetchChat = async (username) => {
+
       const messagesByClientData = await API.graphql({
         query: messagesByClient, 
         variables: { client: username, sortDirection: 'ASC' }
       });
-      // const messagesFromClientData = await API.graphql({
-      //   query: messagesByOwner,
-      //   variables: { owner: username }
-      // });
-      // const messagesToClientData = await API.graphql({
-      //   query: messagesByReceiver, 
-      //   variables: { receiver: username }
-      // });
 
       const _messagesByClient = messagesByClientData?.data?.messagesByClient?.items || [];
-      // const messagesToClient = messagesToClientData?.data?.messagesByReceiver?.items || [];
 
       setMessages([..._messagesByClient]);
+
     }
 
     fetchChat(user.username);
 
+    // Subscription on new messages where Client is the logged in user
     const subscription = API.graphql({
       query: onCreateMessageClient, 
       variables: {
@@ -56,6 +52,7 @@ function ClientArea({ user }) {
       next: (data) => {
         let content = data?.value?.data?.onCreateMessage;
         if (!content) return;
+        
         setMessages(messages => [...messages, content])
       }
     });

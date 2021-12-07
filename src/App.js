@@ -1,12 +1,14 @@
+import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
+import MainArea from './components/MainArea/MainArea';
 import Amplify, { Auth } from 'aws-amplify';
 import awsmobile from './aws-exports';
-import { withAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import './App.css';
-import MainArea from './components/MainArea/MainArea';
 
+// Configure backend services
 Amplify.configure(awsmobile);
 Auth.configure(awsmobile);
 
+// Component rendered for logged in users
 function App() {
   return (
     <div className="App">
@@ -16,4 +18,6 @@ function App() {
   );
 }
 
+// App wrapped in the Authenticator component.
+// Provides us with log in and sign up functionality.
 export default withAuthenticator(App);

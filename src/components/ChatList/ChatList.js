@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import './ChatList.css';
+
+// Gets the setRecipient from PersonellArea and allows Personell to switch between active
+// chats.
 function ChatList({ recipient, setRecipient }) {
-  console.log(recipient)
   const [chats, setChats] = useState([]);
 
   useEffect(() => {
-    setChats(['jóhannes', 'gunnar', 'placeholder1', 'placeholder2'])
+    setChats(['jóhannes', 'gunnar', 'placeholder1', 'placeholder2']) // <- HARD CODED VALUES!!!
   }, []);
 
   return (
@@ -14,7 +16,6 @@ function ChatList({ recipient, setRecipient }) {
         <li key={i}
             className={recipient===chat ? 'ChatListItem ChatListItem__selected' : 'ChatListItem'}
             onClick={() => { 
-              console.log(`change recipient to ${chat}`)
               setRecipient(chat) }}
         >{chat}</li>)}
     </ul>

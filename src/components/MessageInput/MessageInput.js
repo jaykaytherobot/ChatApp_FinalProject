@@ -1,17 +1,19 @@
-import './MessageInput.css';
+import { createMessage, deleteMessage } from '../../graphql/mutations';
+import { messagesByOwner } from '../../graphql/queries';
 import Button from '..//Button/Button';
 import { API } from 'aws-amplify';
-import { createMessage, deleteMessage } from '../../graphql/mutations';
 import { useState } from 'react';
-import { messagesByOwner } from '../../graphql/queries';
+import './MessageInput.css';
 
 function MessageInput({ username, client }) {
+
   const [content, setContent] = useState('');
 
+  // Sends the message in the input 
   async function sendMessage() {
     if (!content || !username) return;
 
-    let result = await API.graphql({ 
+    await API.graphql({ 
       query: createMessage, 
       variables: { 
         input: {
@@ -26,6 +28,7 @@ function MessageInput({ username, client }) {
     document.getElementById('messageContainer').value = '';
   }
 
+  // Dev function to easily delete all messages the logged in user ownes
   async function deleteAllMessages(evt) {
     evt.preventDefault();
     let myMessagesData = await API.graphql({
@@ -62,11 +65,10 @@ function MessageInput({ username, client }) {
         _className='SendArrow'
         onClick={sendMessage}
       />
-      <Button 
+      <Button // Temporary dev button that calls deleteAllMessages
         text='delete my messages' 
         _className={false}
         onClick={deleteAllMessages} />
-
     </div>
   );
 }

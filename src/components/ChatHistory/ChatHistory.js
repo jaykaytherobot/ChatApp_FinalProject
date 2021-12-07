@@ -1,10 +1,11 @@
 import './ChatHistory.css';
 import React from 'react';
 
+// Renders the messages 
 function ChatHistory({ user, messages }) {
   if (!messages) messages = [];
 
-  console.log(user);
+  // The styling is based on if the logged in user ownes the message being rendered
   return (
     <div className='ChatHistory'>
       {

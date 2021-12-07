@@ -1,26 +1,25 @@
 .SendArrow {
   aspect-ratio: 1;
+  border-radius: 50%;
   height: 100%;
   max-height: 3em;
-  border-radius: 50%;
   position: relative;
 }
 
-
 .SendArrow::after {
   content: '';
-  position: absolute;
-
+  
   border-color: blue;
   border-style: groove;
   border-width: 5px 5px 0px 0px;
-
-  height: 30%;
-  width: 30%;
-  transform: rotate(40deg)
-             skew(-15deg, -15deg);
   
-  top: 27%;
+  position: absolute;
+  
+  height: 30%;
   left: 17%;
-
+  width: 30%;
+  top: 27%;
+  
+  transform: rotate(40deg)
+    skew(-15deg, -15deg);
 }

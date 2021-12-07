@@ -1,25 +1,25 @@
 .MessageInput {
-  display: flex;
-  justify-content: flex-end;
   align-items: center;
+  box-sizing: border-box;
+  display: flex;
+  height: fit-content;
+  justify-content: flex-end;
   width: 100%;
   padding: 10px 15px;
-  box-sizing: border-box;
-  height: fit-content;
 }
 
 .formInput {
   flex-grow: 1;
-  max-width: 70%;
   height: 2em;
+  max-width: 70%;
   padding: 0px 10px;
 }
 
 .input {
   border-radius: 8px;
   border-color: #bbb;
-  outline-color: #6AB8DA;
-  width: 90%;
   height: 90%;
+  outline-color: #6AB8DA;
   padding: 0 2%;
+  width: 90%;
 }
