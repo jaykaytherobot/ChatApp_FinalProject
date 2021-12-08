@@ -54,7 +54,7 @@ function MessageInput({ username, client }) {
     <div className='MessageInput'>
       <form className='formInput' 
             onSubmit={e => { e.preventDefault(); sendMessage() }}
-            autocomplete="off">
+            autoComplete="off">
         <input className='input' id='messageContainer' 
           onChange={e => setContent(e.target.value)}
           />
